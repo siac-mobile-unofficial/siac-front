@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "ufba_react",
     "name": "ufba_react",
     "slug": "ufba_react",
     "version": "1.0.0",
@@ -24,7 +25,11 @@
       }
     },
     "web": {
+      "bundler": "metro",
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
