@@ -4,7 +4,7 @@ import { theme } from "../theme"
 import { StatusBar } from "expo-status-bar"
 import { useState } from "react"
 import { useEffect } from "react"
-import { infoClassroom } from "../services/UserServices"
+import { PDF, infoClassroom } from "../services/UserServices"
 import { router } from "expo-router"
 export default function Registration(){
     const [data,setData] = useState(null);
@@ -42,7 +42,7 @@ export default function Registration(){
                 }
                
             </View>
-                <Pressable style={style.pdf}>
+                <Pressable onPress={()=>{console.log(PDF());}} style={style.pdf}>
                     <Text style={{fontSize:18,color:theme.secondColor,fontWeight:"700"}}>PDF</Text>
                 </Pressable>
             <StatusBar backgroundColor={theme.primaryColor} style="light"/>

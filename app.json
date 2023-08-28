@@ -1,6 +1,6 @@
 {
   "expo": {
-    "scheme": "ufba_react",
+    "scheme": "ufbareact",
     "name": "ufba_react",
     "slug": "ufba_react",
     "version": "1.0.0",
@@ -22,7 +22,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.ufba_ltda.siacmobile"
     },
     "web": {
       "bundler": "metro",
@@ -30,6 +31,14 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "140142cc-472b-43ac-b588-57eb6b38deb8"
+      }
+    }
   }
 }

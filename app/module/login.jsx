@@ -4,7 +4,7 @@ import { theme } from "../theme";
 import { TextInput } from "react-native-gesture-handler";
 import { Link, router } from "expo-router";
 import { useState } from "react";
-import Authentication from "../services/AuthorizationService";
+import Authentication, { PasswordRecovery } from "../services/AuthorizationService";
 import Loading from "./loading";
 
 
@@ -19,7 +19,10 @@ export default function Login(){
             <View style={style.infos}>
                 <TextInput autoCorrect={false}  onChangeText={(register)=>{setRegister( register)}} style={style.input} placeholder="CPF" textContentType="username"/>
                 <TextInput autoCorrect={false}  onChangeText={(password)=>{setPassword(password)}} style={style.input} placeholder="Senha" secureTextEntry={true} textContentType="password"/>
-                <Text style={{left:"22%",fontSize:12,color:theme.primaryColor}} >Esqueceu sua senha?</Text>
+                <Pressable onPress={PasswordRecovery}>
+                     <Text style={{left:"22%",fontSize:12,color:theme.primaryColor}} >Esqueceu sua senha?</Text>
+                </Pressable>
+               
                 <Pressable onPress={()=>{isRegister == null || isPassword == null ? 
                     Alert.alert("ERRO","Falta de dados"):
                      router.replace({params:{register:isRegister,password:isPassword},pathname:"/module/loading"})}} 

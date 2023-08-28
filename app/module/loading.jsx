@@ -11,13 +11,16 @@ export default   function Loading(){
     async function verifyAuth(){
         const auth = await Authentication(register,password)
         if (auth) {
+           
             const infos =  await  Information()
             User.getInstance().setName(infos.name);
             User.getInstance().setRegister(infos.register);
             User.getInstance().setCourse(infos.couser);
             User.getInstance().setCR(infos.cr);
             User.getInstance().setSemester(infos.semester);
+              
             router.replace("/module/main")
+          
         }else{
             router.replace("/module/login");
         }
