@@ -2,7 +2,7 @@
 import { Platform } from "react-native";
 import User from "../dto/User";
 import * as FileSystem from 'expo-file-system';
-import { requestPermissionsAsync } from "expo-media-library";
+//import { requestPermissionsAsync } from "expo-media-library";
 import * as Sharing from 'expo-sharing';
 
 const ip = "192.168.0.153"
@@ -87,10 +87,10 @@ export async function infoClassroom(){
     }
 }
 export async function PDF(){
-    if (Platform.OS === "android" && Platform.Version >= "11") {
-       requestPermissionsAsync()
+    // if (Platform.OS === "android" && Platform.Version >= "11") {
+    //    requestPermissionsAsync()
        
-    }
+    // }
     var body={
         cookies:User.getInstance().getCookies(),
         headers:User.getInstance().getHeaders()
@@ -134,4 +134,6 @@ export async function PDF(){
        
     }
 }
+
+
 export default Information;
