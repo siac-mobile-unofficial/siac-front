@@ -1,6 +1,7 @@
 import { Alert } from "react-native";
 import User from "../dto/User";
-import { FetchResult } from "react-native";
+import { MMKV } from 'react-native-mmkv'
+
 
 
 const forbidden = 403
@@ -14,13 +15,13 @@ async  function Authentication (register,password){
         method:"POST",
         headers: {
             "Content-Type": "application/json",
-            "Origin":"http://dev.com"
+            
           },
           body:JSON.stringify(data)
     })
     
     .catch(error=>{
-        return Alert.alert(`Erro${error}`,`Tente mais tarde, problemas no servidor`)
+        return Alert.alert(`Erro${error}`,`Tente mais tarde, problemas no servidor\n${urlAuthentication}`)
       });
       
     if (response !== undefined) {
@@ -42,8 +43,14 @@ async  function Authentication (register,password){
     
      
 }
-export async function PasswordRecovery() {
-    
-}
+export async function PasswordRecovery() {}
 
+export function SaveUser() {
+    const save = new MMKV({id:`user-register-storage`
+    ,encryptionKey:'seguro'})
+    
+ return save
+
+}
+   
 export default Authentication;
