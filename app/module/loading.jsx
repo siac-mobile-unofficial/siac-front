@@ -4,6 +4,8 @@ import Authentication from "../services/AuthorizationService"
 import {useRouter , useLocalSearchParams } from "expo-router";
 import Information from "../services/UserServices";
 import User from "../dto/User";
+import { StatusBar } from "expo-status-bar";
+import IconUfba from "../components/iconUfba";
 
 export default   function Loading(){
     const router = useRouter();
@@ -30,11 +32,10 @@ export default   function Loading(){
     
     return(
         <View style={style.body}>
-            <View style={style.logo}>
-              <Text style={style.logoU}>U<Text style={style.logoFBA}>fba</Text></Text>
-            </View>
+            <IconUfba color={theme.secondColor} />
             <ActivityIndicator style={{flex:3}} size={72} 
             color={theme.secondColor}/>
+            <StatusBar backgroundColor={theme.primaryColor} style="light"/>
         </View>
     )
 }
@@ -48,20 +49,5 @@ const style = StyleSheet.create({
         alignItems:"center",
         justifyContent:"center"
     },
-    logo:{
-        
-        flex:1, 
-        marginTop:10,
-        justifyContent:"center"
-      },
-      logoU:{
-          fontSize:64,
-          fontWeight:"800",
-          color:theme.secondColor
-      },
-      logoFBA:{
-          fontWeight:"400",
-          fontSize:32,
-          color:theme.secondColor
-      }
+
 })

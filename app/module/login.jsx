@@ -1,49 +1,79 @@
-import {  Alert, Pressable, StyleSheet } from "react-native";
+import {  Alert, Modal, Pressable, StyleSheet } from "react-native";
 import { Text, View } from "react-native";
 import { theme } from "../theme";
 import { TextInput } from "react-native-gesture-handler";
 import { Link, router } from "expo-router";
-import { useState } from "react";
-import Authentication, { PasswordRecovery } from "../services/AuthorizationService";
-import Loading from "./loading";
+import { useEffect, useState } from "react";
+import { SafeAreaView } from "react-native";
+import AuthorizedAlert from "../components/alert";
+import Checkbox from "expo-checkbox";
+import { SaveUser } from "../services/AuthorizationService";
+import IconUfba from "../components/iconUfba";
 
 
 export default function Login(){
-    const [isRegister,setRegister] =  useState();
+    const [isRegister,setRegister] =  useState(undefined);
     const [isPassword,setPassword] = useState();
-    return(
-        <View style={style.body}>
-            <View style={style.logo}>
-              <Text style={style.logoU}>U<Text style={style.logoFBA}>fba</Text></Text>
-            </View>
-            <View style={style.infos}>
-                <TextInput autoCorrect={false}  onChangeText={(register)=>{setRegister( register)}} style={style.input} placeholder="CPF" textContentType="username"/>
-                <TextInput autoCorrect={false}  onChangeText={(password)=>{setPassword(password)}} style={style.input} placeholder="Senha" secureTextEntry={true} textContentType="password"/>
-                <Pressable onPress={PasswordRecovery}>
-                     <Text style={{left:"22%",fontSize:12,color:theme.primaryColor}} >Esqueceu sua senha?</Text>
-                </Pressable>
+    const [isCheck,setCheck] = useState(SaveUser().getBoolean('userCheck'));
+    
+    
+    useEffect(()=>{  
+        if (!isCheck) {
+           if (SaveUser().contains('user.register')) {
+                SaveUser().delete('user.register')
+           } 
+           SaveUser().set('userCheck',isCheck)
+        }else{
+             if(SaveUser().getString('user.register') && isRegister === undefined) {
+                SaveUser().set('userCheck',isCheck)
+                setRegister(SaveUser().getString('user.register'))
+            }else{
+                SaveUser().delete('user.register')
+                if (isRegister) {
+                     SaveUser().set('user.register',isRegister)
+                     SaveUser().set('userCheck',isCheck)
+                }
                
+            }     
+}  
+    },[isCheck,isRegister])
+    
+    return(
+        <SafeAreaView style={style.body}>
+           <IconUfba color={theme.primaryColor} />
+            <AuthorizedAlert/>
+            <View style={style.infos}>
+                <TextInput autoCorrect={false} value={isRegister} onChangeText={(register)=>{setRegister( register)}} style={style.input} placeholder="CPF" textContentType="username"/>
+                <TextInput autoCorrect={false}  onChangeText={(password)=>{setPassword(password)}} style={style.input} placeholder="Senha" secureTextEntry={true} textContentType="password"/>
+                <View style={{flexDirection:"row-reverse",justifyContent:"center",padding:2}}>
+                    <Link href="/module/passwordRecovery" style={{left:"22%"}}>
+                        <Text style={{left:"22%",fontSize:12,color:theme.primaryColor}} >Esqueceu sua senha?</Text>
+                    </Link>
+                    <Text style={{marginRight:80,marginLeft:3}}>Lembre me</Text>
+                    <Checkbox style={{width:15,height:15}} color={theme.primaryColor} value={isCheck} onValueChange={setCheck}/>
+                </View>
                 <Pressable onPress={()=>{isRegister == null || isPassword == null ? 
                     Alert.alert("ERRO","Falta de dados"):
                      router.replace({params:{register:isRegister,password:isPassword},pathname:"/module/loading"})}} 
                 style={style.loginBT} >
                     <Text style={{fontSize:20,fontStyle:"italic",fontWeight:"500",color:theme.secondColor}}>Login</Text>
                 </Pressable>
-                <View style={{width:"100%",justifyContent:"center",alignItems:"center",flexDirection:"row",gap:20}}>
+                {/* <View style={{width:"100%",justifyContent:"center",alignItems:"center",flexDirection:"row",gap:20}}>
                     <Link href="/module/menu" style={style.ruBT}>
                         <Text style={{fontSize:24,color:theme.secondColor,fontWeight:"700"}}>R.U</Text>
                      </Link>
                      <Link href="/module/menu" style={style.ruBT}>
                         <Text style={{fontSize:24,color:theme.secondColor,fontWeight:"700"}}>BusUFBA</Text>
                      </Link>
-                </View>
+                </View> */}
                
                 
            </View> 
            
-        </View>
+        </SafeAreaView>
     )
 }
+
 
 
 const style = StyleSheet.create({
@@ -53,25 +83,11 @@ const style = StyleSheet.create({
         alignItems:"center",
         justifyContent:"center",
         flex:1,
-        width:"100%",   
+        width:"100%", 
+        gap:50
    
     },
-    logo:{
-        
-      flex:1, 
-      marginTop:10,
-      justifyContent:"center"
-    },
-    logoU:{
-        fontSize:64,
-        fontWeight:"800",
-        color:theme.primaryColor
-    },
-    logoFBA:{
-        fontWeight:"400",
-        fontSize:32,
-        color:theme.primaryColor
-    },
+
     infos:{
         width:"100%",
         flex:2,
@@ -91,7 +107,7 @@ const style = StyleSheet.create({
     },
     loginBT:{
         backgroundColor:theme.primaryColor,
-        marginTop:10,
+        marginTop:30,
         width:"45%",
         borderRadius:20,
         padding:8,

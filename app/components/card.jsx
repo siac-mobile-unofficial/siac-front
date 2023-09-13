@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { View } from 'react-native-web';
+import { View } from 'react-native';
 
 
 export default function Card(title,description,image){

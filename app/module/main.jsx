@@ -8,13 +8,13 @@ const urlInfo = "http://192.168.0.153:8080/user/info" ;
 
 
 export default function Main(){
-    var option = ["MATRICULA","NOTAS","CURRICULO","SERVIÇOS","EVENTO"]
+    var option = ["MATRICULA","NOTAS","CURRICULO","SERVIÇOS","UPDATE"]
     return(
         <View style={style.body}>
              <StatusBar backgroundColor={theme.primaryColor} style="light"/>
             <View style={style.user}>
-                <Text style={{fontSize:32,color:theme.secondColor,fontWeight:"500"}}>Olá,<Text style={{fontSize:26,fontWeight:"400"}}>{User.getInstance().getName()}</Text></Text>
-                <Text style={{fontSize:18,color:theme.secondColor,padding:8,marginTop:10}}>Restaurante:{}</Text>
+                <Text style={{fontSize:28,color:theme.secondColor,fontWeight:"500"}}>Olá,<Text style={{fontSize:24,fontWeight:"400"}}>{User.getInstance().getName()}</Text></Text>
+                <Text style={{fontSize:18,color:theme.secondColor,padding:8,marginTop:10}}>Restaurante: EM DESENVOLVIMENTO{}</Text>
             </View>
             <View style={style.optionScreen}>
                 {option.map((item)=>{
@@ -25,7 +25,7 @@ export default function Main(){
                                     router.push("/module/registration")
                                     break;
                                 case option[1]:
-                                    console.log(option[1]);
+                                   // router.push("/module/notes")
                                     break;
                                 case option[2]:
                                    router.push("/module/curriculum")
