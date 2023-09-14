@@ -6,7 +6,7 @@ import {BACK_END} from "@env";
 
 
 const forbidden = 403
-const urlAuthentication = `http://${BACK_END}:8080/auth/login`;
+const urlAuthentication = `http://${BACK_END}/auth/login`;
 async  function Authentication (register,password){
     var data = {
     register:register,
