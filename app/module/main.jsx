@@ -8,7 +8,7 @@ const urlInfo = "http://192.168.0.153:8080/user/info" ;
 
 
 export default function Main(){
-    var option = ["MATRICULA","NOTAS","CURRICULO","SERVIÇOS","UPDATE"]
+    var option = ["MATRICULA","NOTAS","CURRICULO","SERVIÇOS","EVENTOS"]
     return(
         <View style={style.body}>
              <StatusBar backgroundColor={theme.primaryColor} style="light"/>
@@ -22,13 +22,16 @@ export default function Main(){
                         <Pressable key={item} onPress={()=>{
                             switch (item) {
                                 case option[0]:
-                                    router.push("/module/registration")
+                                        router.push("/module/registration")
                                     break;
                                 case option[1]:
-                                   // router.push("/module/notes")
+                                        router.push("/module/notes")
                                     break;
                                 case option[2]:
-                                   router.push("/module/curriculum")
+                                        router.push("/module/curriculum")
+                                    break;
+                                case option[3]:
+                                        router.push("/module/service")
                                     break;
                                 default:
                                     break;

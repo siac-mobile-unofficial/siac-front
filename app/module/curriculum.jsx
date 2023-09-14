@@ -6,6 +6,7 @@ import { theme } from "../theme";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import User from "../dto/User";
+import IconBack from "../components/iconBack";
 
 export default function Curriculum() {
   const [items, setItems] = useState([{label:"null",value:"null"}]);
@@ -38,7 +39,7 @@ export default function Curriculum() {
       <SafeAreaView style={{flex: 1 }}>
         <StatusBar backgroundColor={theme.primaryColor} style="light"/>
         <View style={style.cardTop}> 
-        <Pressable style={style.exit} onPress={()=>{router.back()}} />
+          <IconBack color={theme.secondColor}/>
           <DropDownPicker placeholder={"Selecione o semestre"}
           style={{borderWidth:0,width:"90%",borderRadius:30,marginLeft:"5%"}}
           open={open}
@@ -109,16 +110,5 @@ export default function Curriculum() {
         alignItems:"flex-end"
       
     },
-    exit:{
-      width:10,
-      height:10,
-      borderColor:theme.secondColor,
-      borderBottomWidth:5,
-      borderLeftWidth:5,
-      transform:[{rotateZ:"45deg"}],
-      position:"absolute",
-      top:"8%",
-      left:"5%",
-      padding:6,
-  },
+
   })

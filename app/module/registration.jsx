@@ -6,6 +6,7 @@ import { useState } from "react"
 import { useEffect } from "react"
 import { PDF, infoClassroom } from "../services/UserServices"
 import { router } from "expo-router"
+import IconBack from "../components/iconBack"
 export default function Registration(){
     const [data,setData] = useState(null);
     useEffect(()=>{
@@ -14,17 +15,18 @@ export default function Registration(){
         }
         api()
     },[])
-    const matter = [1,2]
     return(
         <View style={{flex:1}}>
             <View style={style.cardTop}>
-            <Pressable style={style.exit} onPress={()=>{router.back()}} />
-                <Text style={style.info}><Text style={{fontWeight:"700",fontSize:16}}>Nome:</Text> {User.getInstance().getName()}</Text>
-                <Text style={style.info}><Text style={{fontWeight:"700",fontSize:16}}>Matricula:</Text> {User.getInstance().getRegister()}</Text>
-                <Text style={style.info}><Text style={{fontWeight:"700",fontSize:16}}>Curso:</Text> {User.getInstance().getCourse()}</Text>
-                <Text style={style.info}><Text style={{fontWeight:"700",fontSize:16}}>Semestre:</Text> {User.getInstance().getSemester()}</Text>
-                <Text style={style.info}><Text style={{fontWeight:"700",fontSize:16}}>CR:</Text> {User.getInstance().getCR()}</Text>
-            </View>
+                <IconBack color={theme.secondColor}/>
+                <View style={{marginTop:5, gap:3}}>
+                    <Text style={style.info}><Text style={{fontWeight:"700",fontSize:16}}>Nome:</Text> {User.getInstance().getName()}</Text>
+                    <Text style={style.info}><Text style={{fontWeight:"700",fontSize:16}}>Matricula:</Text> {User.getInstance().getRegister()}</Text>
+                    <Text style={style.info}><Text style={{fontWeight:"700",fontSize:16}}>Curso:</Text> {User.getInstance().getCourse()}</Text>
+                    <Text style={style.info}><Text style={{fontWeight:"700",fontSize:16}}>Semestre:</Text> {User.getInstance().getSemester()}</Text>
+                    <Text style={style.info}><Text style={{fontWeight:"700",fontSize:16}}>CR:</Text> {User.getInstance().getCR()}</Text>
+                </View>
+                 </View>
             <View style={style.body}>
                 {data ? (
                 <FlatList
@@ -56,8 +58,8 @@ const style = StyleSheet.create({
         backgroundColor:theme.primaryColor,
         borderBottomEndRadius:30,
         borderBottomStartRadius:30,
-        padding:14,
-        gap:5,
+        padding:16,
+        gap:8,
         alignItems:"left",
         justifyContent:"center"
     },
@@ -77,18 +79,6 @@ const style = StyleSheet.create({
         flexDirection:"row",
         justifyContent:"space-around",
         alignItems:"flex-end"
-    },
-    exit:{
-        width:10,
-        height:10,
-        borderColor:theme.secondColor,
-        borderBottomWidth:5,
-        borderLeftWidth:5,
-        transform:[{rotateZ:"45deg"}],
-        position:"absolute",
-        top:"8%",
-        left:"5%",
-        padding:6, 
     },
     pdf:{
         zIndex:5,
