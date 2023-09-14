@@ -4,12 +4,12 @@ import User from "../dto/User";
 import * as FileSystem from 'expo-file-system';
 //import { requestPermissionsAsync } from "expo-media-library";
 import * as Sharing from 'expo-sharing';
+import {BACK_END} from "@env";
 
-const ip = "192.168.0.153"
-const urlInfo = `http://${ip}:8080/user/info`;
-const urlCurriculum = `http://${ip}:8080/user/curriculum`;
-const urlClassroom = `http://${ip}:8080/user/classroom`;
-const urlPdf = `http://${ip}:8080/user/pdf`;
+const urlInfo = `http://${BACK_END}/user/info`;
+const urlCurriculum = `http://${BACK_END}/user/curriculum`;
+const urlClassroom = `http://${BACK_END}/user/classroom`;
+const urlPdf = `http://${BACK_END}/user/pdf`;
 async function Information(){
     var body={
         cookies:User.getInstance().getCookies(),

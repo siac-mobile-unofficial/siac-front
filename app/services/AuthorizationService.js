@@ -1,11 +1,12 @@
 import { Alert } from "react-native";
 import User from "../dto/User";
 import { MMKV } from 'react-native-mmkv'
+import {BACK_END} from "@env";
 
 
 
 const forbidden = 403
-const urlAuthentication = "http://192.168.0.153:8080/auth/login";
+const urlAuthentication = `http://${BACK_END}:8080/auth/login`;
 async  function Authentication (register,password){
     var data = {
     register:register,
