@@ -16,7 +16,7 @@
 1. Clone este repositório em seu computador:
 
 ```bash
-$ git clone https://github.com/seu-usuario/nome-do-repositorio.git
-$ cd nome-do-repositorio
+$ git clone https://github.com/siac-mobile-unofficial/siac-front.git
+$ cd /siac-front
 $ npm install
 $ npx expo start
