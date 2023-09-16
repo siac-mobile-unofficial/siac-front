@@ -4,13 +4,11 @@
 - [Visão Geral](#visão-geral)
 - [Instalação](#instalação)
 - [Uso](#uso)
-- [Contribuição](#contribuição)
-- [Licença](#licença)
 
 
 ## Pré-requisitos
 
-- Node.js e npm ou yarn instalados.
+- Node.js e npm instalados.
 - Um emulador Android/iOS ou um dispositivo físico para testar o aplicativo.
 
 ## Instalação
@@ -20,3 +18,5 @@
 ```bash
 $ git clone https://github.com/seu-usuario/nome-do-repositorio.git
 $ cd nome-do-repositorio
+$ npm install
+$ npx expo start
