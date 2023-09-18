@@ -7,6 +7,7 @@ import { useEffect } from "react"
 import { PDF, infoClassroom } from "../services/UserServices"
 import { router } from "expo-router"
 import IconBack from "../components/iconBack"
+import CardTop from "../components/cardTop"
 export default function Registration(){
     const [data,setData] = useState(null);
     useEffect(()=>{
@@ -15,18 +16,17 @@ export default function Registration(){
         }
         api()
     },[])
-    return(
-        <View style={{flex:1}}>
-            <View style={style.cardTop}>
-                <IconBack color={theme.secondColor}/>
-                <View style={{marginTop:5, gap:3}}>
-                    <Text style={style.info}><Text style={{fontWeight:"700",fontSize:16}}>Nome:</Text> {User.getInstance().getName()}</Text>
+    const infos = <View>
+         <Text style={style.info}><Text style={{fontWeight:"700",fontSize:16}}>Nome:</Text> {User.getInstance().getName()}</Text>
                     <Text style={style.info}><Text style={{fontWeight:"700",fontSize:16}}>Matricula:</Text> {User.getInstance().getRegister()}</Text>
                     <Text style={style.info}><Text style={{fontWeight:"700",fontSize:16}}>Curso:</Text> {User.getInstance().getCourse()}</Text>
                     <Text style={style.info}><Text style={{fontWeight:"700",fontSize:16}}>Semestre:</Text> {User.getInstance().getSemester()}</Text>
                     <Text style={style.info}><Text style={{fontWeight:"700",fontSize:16}}>CR:</Text> {User.getInstance().getCR()}</Text>
-                </View>
-                 </View>
+                
+    </View>
+    return(
+        <View style={{flex:1}}>
+            <CardTop Return={true} Values={infos}/>
             <View style={style.body}>
                 {data ? (
                 <FlatList

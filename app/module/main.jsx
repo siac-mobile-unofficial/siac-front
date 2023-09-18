@@ -3,19 +3,21 @@ import { theme } from "../theme";
 import User from "../dto/User";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import CardTop from "../components/cardTop";
 
 const urlInfo = "http://192.168.0.153:8080/user/info" ;
 
 
 export default function Main(){
     var option = ["MATRICULA","NOTAS","CURRICULO","SERVIÇOS","EVENTOS"]
+    const infos =   <View>
+    <Text style={{fontSize:28,color:theme.secondColor,fontWeight:"500"}}>Olá,<Text style={{fontSize:24,fontWeight:"400"}}>{User.getInstance().getName()}</Text></Text>
+    <Text style={{fontSize:18,color:theme.secondColor,padding:8,marginTop:10}}>Restaurante: EM DESENVOLVIMENTO{}</Text>
+</View>
     return(
         <View style={style.body}>
              <StatusBar backgroundColor={theme.primaryColor} style="light"/>
-            <View style={style.user}>
-                <Text style={{fontSize:28,color:theme.secondColor,fontWeight:"500"}}>Olá,<Text style={{fontSize:24,fontWeight:"400"}}>{User.getInstance().getName()}</Text></Text>
-                <Text style={{fontSize:18,color:theme.secondColor,padding:8,marginTop:10}}>Restaurante: EM DESENVOLVIMENTO{}</Text>
-            </View>
+            <CardTop Values={infos}/>
             <View style={style.optionScreen}>
                 {option.map((item)=>{
                     return(
@@ -53,17 +55,6 @@ const style = StyleSheet.create({
         backgroundColor:theme.secondColor,
         display:"flex",
         flex:1,
-    },
-    user:{
-        flex:1,
-        backgroundColor:theme.primaryColor,
-        zIndex:2,
-        borderBottomEndRadius:30,
-        borderBottomStartRadius:30,
-        padding:24,
-        alignItems:"flex-start",
-        justifyContent:"center"
-
     },
     optionScreen:{
         flex:3,
