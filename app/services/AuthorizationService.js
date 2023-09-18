@@ -16,7 +16,7 @@ async  function Authentication (register,password){
         method:"POST",
         headers: {
             "Content-Type": "application/json",
-            
+            "Origin":"http://dev.com"
           },
           body:JSON.stringify(data)
     })
@@ -49,7 +49,11 @@ export async function PasswordRecovery() {}
 export function SaveUser() {
     const save = new MMKV({id:`user-register-storage`
     ,encryptionKey:'seguro'})
-    
+    if (!save.contains("userCheck")) {
+        save.set("userCheck",false)
+    }else{
+        save.set("userCheck",save.getBoolean("userCheck"))
+    }
  return save
 
 }
