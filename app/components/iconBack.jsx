@@ -18,8 +18,8 @@ const style = StyleSheet.create({
 }) 
    
    return <View style={{width:12,height:12, position:"absolute",
-   top:"8%",
-   left:"5%",}}>
+   top:"13%",
+   left:"6%",}}>
              <Pressable style={style.exit} onPress={()=>{useRouter().back()}} />
         </View>
 }
