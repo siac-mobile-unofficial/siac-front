@@ -10,6 +10,7 @@ const urlInfo = `http://${BACK_END}/user/info`;
 const urlCurriculum = `http://${BACK_END}/user/curriculum`;
 const urlClassroom = `http://${BACK_END}/user/classroom`;
 const urlPdf = `http://${BACK_END}/user/pdf`;
+const urlNotes = `http://${BACK_END}/user/notes`
 async function Information(){
     var body={
         cookies:User.getInstance().getCookies(),
@@ -81,8 +82,9 @@ export async function infoClassroom(){
     }).catch(error=>{
         Alert.alert("Error","Tente mais tarde, problemas no servidor")
         return console.error("Error",error)});
-        if (response !== undefined) {
+        if (response !== undefined) {    
         const result = await response.json(); 
+        result.map(item=>item.status = false) 
         return result; 
     }
 }
@@ -134,6 +136,26 @@ export async function PDF(){
        
     }
 }
+export async function infosNotes(){
+    var body={
+        cookies:User.getInstance().getCookies(),
+        headers:User.getInstance().getHeaders()
+    }
+    const response = await fetch(urlNotes,{
+        method:"POST",
+        body:JSON.stringify(body),
+        headers:{
+            "Content-Type":"application/json",
+            "Origin":"http://dev.com"
 
+        }
+    }).catch(error=>{
+        Alert.alert("Error","Tente mais tarde, problemas no servidor")
+        return console.error("Error",error)});
+        if (response !== undefined) {
+            const result = await response.json();    
+        return result.filter(item=>(item !="No Identify")); 
+    }
+}
 
 export default Information;

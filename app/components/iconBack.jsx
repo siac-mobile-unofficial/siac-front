@@ -6,8 +6,7 @@ export default function IconBack({color}){
   
 const style = StyleSheet.create({
     exit:{
-        width:10,
-        height:10,
+       
         borderColor:color,
         borderBottomWidth:5,
         borderLeftWidth:5,
@@ -17,10 +16,8 @@ const style = StyleSheet.create({
     },
 }) 
    
-   return <View style={{width:12,height:12, position:"absolute",
-   top:"13%",
-   left:"6%",}}>
-             <Pressable style={style.exit} onPress={()=>{useRouter().back()}} />
+   return <View style={{width:10,height:10}}>
+             <Pressable  style={style.exit} onPress={()=>{useRouter().back()}} />
         </View>
 }
 

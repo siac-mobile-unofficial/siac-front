@@ -6,7 +6,7 @@ import { theme } from "../theme";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import User from "../dto/User";
-import IconBack from "../components/iconBack";
+import CardTop from "../components/cardTop";
 
 export default function Curriculum() {
   const [items, setItems] = useState([{label:"null",value:"null"}]);
@@ -35,21 +35,19 @@ export default function Curriculum() {
         setItems(objItems);
     }
 }, [statusData]);
-    return (
+    const infos = <DropDownPicker placeholder={"Selecione o semestre"}
+    style={{borderWidth:0,width:"90%",borderRadius:30,marginLeft:"5%"}}
+    open={open}
+    value={value}
+    items={items}
+    setOpen={setOpen}
+    setValue={setValue}
+    setItems={setItems}
+    maxHeight={500}/>
+return (
       <SafeAreaView style={{flex: 1 }}>
         <StatusBar backgroundColor={theme.primaryColor} style="light"/>
-        <View style={style.cardTop}> 
-          <IconBack color={theme.secondColor}/>
-          <DropDownPicker placeholder={"Selecione o semestre"}
-          style={{borderWidth:0,width:"90%",borderRadius:30,marginLeft:"5%"}}
-          open={open}
-          value={value}
-          items={items}
-          setOpen={setOpen}
-          setValue={setValue}
-          setItems={setItems}
-          maxHeight={500}/>
-        </View>
+      <CardTop Return={true} Values={infos}/>
       
        <View style={style.body}> 
        {statusData != null? 

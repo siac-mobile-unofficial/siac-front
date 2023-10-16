@@ -14,6 +14,7 @@
 ## Instalação
 
 1. Clone este repositório em seu computador:
+2. Crie um .env para url do seu servidor
 
 ```bash
 $ git clone https://github.com/siac-mobile-unofficial/siac-front.git

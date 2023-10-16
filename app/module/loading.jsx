@@ -32,7 +32,7 @@ export default   function Loading(){
     
     return(
         <View style={style.body}>
-            <IconUfba color={theme.secondColor} />
+            <IconUfba color={theme.secondColor} sizeU={64} sizeFBA={36} />
             <ActivityIndicator style={{flex:3}} size={72} 
             color={theme.secondColor}/>
             <StatusBar backgroundColor={theme.primaryColor} style="light"/>

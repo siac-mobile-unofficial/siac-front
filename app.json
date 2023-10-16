@@ -23,7 +23,7 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.ufba.ltda.siacmobile"
+      "package": "com.ufba.siacmobile"
     },
     "web": {
       
