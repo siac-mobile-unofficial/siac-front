@@ -14,8 +14,8 @@ import ByName from "../components/byName";
 
 
 export default function Login(){
-    const [isRegister,setRegister] =  useState("09301041537");
-    const [isPassword,setPassword] = useState("Brasil@2911");
+    const [isRegister,setRegister] =  useState();
+    const [isPassword,setPassword] = useState();
     const [isCheck,setCheck] = useState(SaveUser().getBoolean('userCheck'));
     
     
@@ -77,7 +77,7 @@ export default function Login(){
                     </View>     */}
            </View>
           <ByName name={"VitaminaNescau"} color={theme.primaryColor}/> 
-           <StatusBar style="dark"/>
+           <StatusBar style="dark" backgroundColor={theme.secondColor} translucent={true}/>
         </SafeAreaView>
     )
 }
