@@ -27,9 +27,6 @@ async function Authentication(register, password) {
 
   if (response !== undefined) {
     if (response.ok) {
-      const result = await response.json();
-      User.getInstance().setCookies(result[0]);
-      User.getInstance().setHeaders(result[1]);
       return true;
     }
     if (response.status == forbidden) {
