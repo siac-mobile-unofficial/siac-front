@@ -11,14 +11,7 @@ const urlPdf = `http://${BACK_END}/user/pdf`;
 const urlNotes = `http://${BACK_END}/user/notes`;
 const urlHistory = `http://${BACK_END}/user/history`;
 async function Information() {
-  console.log(BACK_END);
-  var body = {
-    cookies: User.getInstance().getCookies(),
-    headers: User.getInstance().getHeaders(),
-  };
   const response = await fetch(urlInfo, {
-    method: "POST",
-    body: JSON.stringify(body),
     headers: {
       Origin: "http://dev.com",
       "Content-Type": "application/json",
@@ -43,13 +36,7 @@ async function Information() {
 }
 
 export async function infoCurriculum() {
-  var body = {
-    cookies: User.getInstance().getCookies(),
-    headers: User.getInstance().getHeaders(),
-  };
   const response = await fetch(urlCurriculum, {
-    method: "POST",
-    body: JSON.stringify(body),
     headers: {
       "Content-Type": "application/json",
       Origin: "http://dev.com",
@@ -64,13 +51,7 @@ export async function infoCurriculum() {
   }
 }
 export async function infoClassroom() {
-  var body = {
-    cookies: User.getInstance().getCookies(),
-    headers: User.getInstance().getHeaders(),
-  };
   const response = await fetch(urlClassroom, {
-    method: "POST",
-    body: JSON.stringify(body),
     headers: {
       "Content-Type": "application/json",
       Origin: "http://dev.com",
@@ -86,17 +67,7 @@ export async function infoClassroom() {
   }
 }
 export async function PDF() {
-  // if (Platform.OS === "android" && Platform.Version >= "11") {
-  //    requestPermissionsAsync()
-
-  // }
-  var body = {
-    cookies: User.getInstance().getCookies(),
-    headers: User.getInstance().getHeaders(),
-  };
   const response = await fetch(urlPdf, {
-    method: "POST",
-    body: JSON.stringify(body),
     headers: {
       "Content-Type": "application/json",
       Origin: "http://dev.com",
@@ -132,13 +103,7 @@ export async function PDF() {
   }
 }
 export async function infosNotes() {
-  var body = {
-    cookies: User.getInstance().getCookies(),
-    headers: User.getInstance().getHeaders(),
-  };
   const response = await fetch(urlNotes, {
-    method: "POST",
-    body: JSON.stringify(body),
     headers: {
       "Content-Type": "application/json",
       Origin: "http://dev.com",
@@ -152,15 +117,8 @@ export async function infosNotes() {
     return result.filter((item) => item != "No Identify");
   }
 }
-
 export const pdfhistory = async () => {
-  var body = {
-    cookies: User.getInstance().getCookies(),
-    headers: User.getInstance().getHeaders(),
-  };
   const response = await fetch(urlHistory, {
-    method: "POST",
-    body: JSON.stringify(body),
     headers: {
       "Content-Type": "application/json",
       Origin: "http://dev.com",
