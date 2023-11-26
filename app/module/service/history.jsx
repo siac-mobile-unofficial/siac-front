@@ -3,11 +3,9 @@ import { global } from "../../utils/theme";
 import Header from "../../components/header";
 import Pdf from "react-native-pdf";
 import { pdfhistory } from "../../services/UserServices";
-import { useEffect, useState } from "react";
+import { BACK_END } from "@env";
 
 export default function History() {
-  const [isPDF, setPDF] = useState();
-  setPDF(pdfhistory);
   return (
     <SafeAreaView style={global.body}>
       <Header />
@@ -15,7 +13,7 @@ export default function History() {
         <View style={global.infoView}>
           <Pdf
             trustAllCerts={false}
-            source={{ uri: isPDF }}
+            source={{ uri: `http://${BACK_END}/user/history`, cache: true }}
             style={{
               flex: 1,
               width: "100%",
