@@ -13,7 +13,11 @@ import { StatusBar } from "expo-status-bar";
 import { useRouter } from "expo-router";
 
 export default function Service() {
-  const option = ["Trancamento de Matricula", "Histórico Escolar ", "Contatos"];
+  const option = [
+    "Trancamento de Matricula (EM DESENVOLVIMENTO)",
+    "Histórico Escolar ",
+    "Contatos",
+  ];
   const choice = (item) => {
     switch (item) {
       case option[0]:
