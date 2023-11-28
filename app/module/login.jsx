@@ -14,7 +14,7 @@ import ByName from "../components/byName";
 
 export default function Login() {
   const [isRegister, setRegister] = useState();
-  const [isPassword, setPassword] = useState("Brasil@2911");
+  const [isPassword, setPassword] = useState();
   const [isCheck, setCheck] = useState(SaveUser().getBoolean("userCheck"));
 
   useEffect(() => {
