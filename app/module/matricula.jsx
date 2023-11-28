@@ -14,111 +14,143 @@ import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import { useEffect } from "react";
 import { PDF, infoClassroom } from "../services/UserServices";
-import IconBack from "../components/iconBack";
-import IconUfba from "../components/iconUfba";
 import ByName from "../components/byName";
 import Header from "../components/header";
+import Pdf from "react-native-pdf";
+import { BACK_END } from "@env";
 
 export default function Registration() {
   const [data, setData] = useState(null);
   const [expand, setExpand] = useState();
+  const [isPDF, setPDF] = useState(false);
   useEffect(() => {
     async function api() {
       setData(await infoClassroom());
     }
+
     api();
   }, []);
-
+  const InfoUser = (
+    <>
+      <Text style={style.info}>
+        <Text style={style.infoName}>Nome:</Text> {User.getInstance().getName()}
+      </Text>
+      <Text style={style.info}>
+        <Text style={style.infoName}>Matricula:</Text>{" "}
+        {User.getInstance().getRegister()}
+      </Text>
+      <Text style={style.info}>
+        <Text style={style.infoName}>Curso:</Text>{" "}
+        {User.getInstance().getCourse()}
+      </Text>
+      <Text style={style.info}>
+        <Text style={style.infoName}>Semestre:</Text>{" "}
+        {User.getInstance().getSemester()}
+      </Text>
+      <Text style={style.info}>
+        <Text style={style.infoName}>CR:</Text> {User.getInstance().getCR()}
+      </Text>
+    </>
+  );
+  const RegisterPreview = (
+    <>
+      {InfoUser}
+      {data == null ? (
+        <ActivityIndicator
+          style={{
+            flex: 5,
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+          }}
+          size={64}
+          color={theme.primaryColor}
+        />
+      ) : (
+        <FlatList
+          style={style.infoClassroom}
+          keyExtractor={(item, index) => index}
+          data={data}
+          renderItem={({ item, index }) => {
+            return (
+              <Pressable
+                onPress={() => {
+                  expand === index ? setExpand(null) : setExpand(index);
+                }}
+                style={style.classroom}
+              >
+                <Text>{item.name}</Text>
+                {expand === index ? (
+                  <View style={style.extraView}>
+                    <Text style={style.title}>
+                      Código: <Text style={style.titleInfo}>{item.code}</Text>
+                    </Text>
+                    <Text style={style.title}>
+                      Turma:{" "}
+                      <Text style={style.titleInfo}>
+                        {item.classcode} {item.classroom}
+                      </Text>
+                    </Text>
+                    <Text style={style.title}>
+                      Dia: <Text style={style.titleInfo}>{item.date}</Text>
+                    </Text>
+                    <Text style={style.title}>
+                      CH: <Text style={style.titleInfo}>{item.hours}</Text>
+                    </Text>
+                    <Text style={style.title}>
+                      Horário:{" "}
+                      <Text style={style.titleInfo}>{item.classhours}</Text>
+                    </Text>
+                    <Text style={style.title}>
+                      Local: <Text style={style.titleInfo}>{item.local}</Text>
+                    </Text>
+                    <Text style={style.title}>
+                      Docente:{" "}
+                      <Text style={style.titleInfo}>{item.teacher}</Text>
+                    </Text>
+                  </View>
+                ) : (
+                  <></>
+                )}
+              </Pressable>
+            );
+          }}
+        />
+      )}
+    </>
+  );
   return (
     <SafeAreaView style={global.body}>
       <Header />
-      <Pressable style={style.pdfBT} onPress={PDF}>
-        <Text style={{ fontWeight: "600" }}>PDF</Text>
+      <Pressable
+        style={style.pdfBT}
+        onPress={() => {
+          isPDF ? setPDF(false) : setPDF(true);
+        }}
+      >
+        <Text style={{ fontWeight: "600" }}>{isPDF ? "PREVIEW" : "PDF"}</Text>
       </Pressable>
+      {isPDF ? (
+        <Pressable onPress={PDF} style={style.pdfBT2}>
+          <Text>DOWNLOAD</Text>
+        </Pressable>
+      ) : (
+        <></>
+      )}
+
       <View style={global.bigBody}>
         <View style={style.infoView}>
-          <Text style={style.info}>
-            <Text style={style.infoName}>Nome:</Text>{" "}
-            {User.getInstance().getName()}
-          </Text>
-          <Text style={style.info}>
-            <Text style={style.infoName}>Matricula:</Text>{" "}
-            {User.getInstance().getRegister()}
-          </Text>
-          <Text style={style.info}>
-            <Text style={style.infoName}>Curso:</Text>{" "}
-            {User.getInstance().getCourse()}
-          </Text>
-          <Text style={style.info}>
-            <Text style={style.infoName}>Semestre:</Text>{" "}
-            {User.getInstance().getSemester()}
-          </Text>
-          <Text style={style.info}>
-            <Text style={style.infoName}>CR:</Text> {User.getInstance().getCR()}
-          </Text>
-          {data == null ? (
-            <ActivityIndicator
+          {isPDF ? (
+            <Pdf
+              source={{ uri: `http://${BACK_END}/user/register`, cache: true }}
               style={{
-                flex: 5,
-                alignItems: "center",
-                justifyContent: "center",
+                flex: 1,
                 width: "100%",
               }}
-              size={64}
-              color={theme.primaryColor}
+              trustAllCerts={false}
             />
           ) : (
-            <FlatList
-              style={style.infoClassroom}
-              keyExtractor={(item, index) => index}
-              data={data}
-              renderItem={({ item, index }) => {
-                return (
-                  <Pressable
-                    onPress={() => {
-                      expand === index ? setExpand(null) : setExpand(index);
-                    }}
-                    style={style.classroom}
-                  >
-                    <Text>{item.name}</Text>
-                    {expand === index ? (
-                      <View style={style.extraView}>
-                        <Text style={style.title}>
-                          Código:{" "}
-                          <Text style={style.titleInfo}>{item.code}</Text>
-                        </Text>
-                        <Text style={style.title}>
-                          Turma:{" "}
-                          <Text style={style.titleInfo}>
-                            {item.classcode} {item.classroom}
-                          </Text>
-                        </Text>
-                        <Text style={style.title}>
-                          Dia: <Text style={style.titleInfo}>{item.date}</Text>
-                        </Text>
-                        <Text style={style.title}>
-                          CH: <Text style={style.titleInfo}>{item.hours}</Text>
-                        </Text>
-                        <Text style={style.title}>
-                          Horário:{" "}
-                          <Text style={style.titleInfo}>{item.classhours}</Text>
-                        </Text>
-                        <Text style={style.title}>
-                          Local:{" "}
-                          <Text style={style.titleInfo}>{item.local}</Text>
-                        </Text>
-                        <Text style={style.title}>
-                          Docente:{" "}
-                          <Text style={style.titleInfo}>{item.teacher}</Text>
-                        </Text>
-                      </View>
-                    ) : (
-                      <></>
-                    )}
-                  </Pressable>
-                );
-              }}
-            />
+            RegisterPreview
           )}
         </View>
       </View>
@@ -144,6 +176,17 @@ const style = StyleSheet.create({
     bottom: 80,
     right: 50,
   },
+  pdfBT2: {
+    padding: 12,
+    backgroundColor: theme.secondColor,
+    borderRadius: 100,
+    elevation: 10,
+    zIndex: 5,
+    position: "absolute",
+    bottom: 80,
+    right: 150,
+  },
+
   bigView: {
     flex: 10,
     padding: 16,
