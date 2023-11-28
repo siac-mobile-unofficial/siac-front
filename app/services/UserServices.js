@@ -7,7 +7,7 @@ import { BACK_END } from "@env";
 const urlInfo = `http://${BACK_END}/user/info`;
 const urlCurriculum = `http://${BACK_END}/user/curriculum`;
 const urlClassroom = `http://${BACK_END}/user/classroom`;
-const urlPdf = `http://${BACK_END}/user/pdf`;
+const urlPdf = `http://${BACK_END}/user/register`;
 const urlNotes = `http://${BACK_END}/user/notes`;
 const urlHistory = `http://${BACK_END}/user/history`;
 async function Information() {
