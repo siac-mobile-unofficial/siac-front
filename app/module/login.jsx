@@ -119,14 +119,42 @@ export default function Login() {
             </Text>
           </Pressable>
         </View>
-        {/* <View style={{flex:.5,width:"100%",justifyContent:"center",alignItems:"center",flexDirection:"row",gap:20}}>
-                    <Link href="/module/menu" style={style.ruBT}>
-                        <Text style={{fontSize:24,color:theme.secondColor,fontWeight:"700"}}>R.U</Text>
-                     </Link>
-                     <Link href="/module/menu" style={style.ruBT}>
-                        <Text style={{fontSize:24,color:theme.secondColor,fontWeight:"700"}}>BusUFBA</Text>
-                     </Link>
-                    </View>     */}
+        <View
+          style={{
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+            gap: 20,
+
+            position: "absolute",
+            bottom: 10,
+            left: "5%",
+          }}
+        >
+          <Link href="/module/menu" style={style.ruBT}>
+            <Text
+              style={{
+                fontSize: 24,
+                color: theme.secondColor,
+                fontWeight: "700",
+              }}
+            >
+              R.U
+            </Text>
+          </Link>
+          <Link href="/module/menu" style={style.ruBT}>
+            <Text
+              style={{
+                fontSize: 24,
+                color: theme.secondColor,
+                fontWeight: "700",
+              }}
+            >
+              BusUFBA
+            </Text>
+          </Link>
+        </View>
       </View>
       <ByName name={"VitaminaNescau"} color={theme.primaryColor} />
       <StatusBar
