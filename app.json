@@ -23,6 +23,7 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
+      "permissions": ["android.permission.ACCESS_FINE_LOCATIONN","android.permission.ACCESS_COARSE_LOCATION"],
       "package": "com.ufba.siacmobile"
     },
     "web": {
