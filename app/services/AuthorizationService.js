@@ -4,6 +4,7 @@ import { MMKV } from "react-native-mmkv";
 import { BACK_END } from "@env";
 
 const forbidden = 403;
+const unathorized = 401;
 const urlAuthentication = `http://${BACK_END}/auth/login`;
 
 async function Authentication(register, password) {
@@ -21,7 +22,7 @@ async function Authentication(register, password) {
   }).catch((error) => {
     return Alert.alert(
       `Erro${error}`,
-      `Tente mais tarde, problemas no servidor\n${urlAuthentication}`,
+      `Tente mais tarde, problemas no servidor`,
     );
   });
 
@@ -29,14 +30,15 @@ async function Authentication(register, password) {
     if (response.ok) {
       return true;
     }
-    if (response.status == forbidden) {
-      Alert.alert(
-        `Erro ${response.status}`,
-        `Problemas de conexão com o servidor`,
-      );
+    if (response.status == unathorized) {
+      let result = await response.json();
+      Alert.alert("Erro", result.message);
       return false;
     }
-    Alert.alert("Erro", "Matricula ou senha incorreta");
+    Alert.alert(
+      `Erro ${response.status}`,
+      `Problemas de conexão com o servidor`,
+    );
     return false;
   }
   return false;
