@@ -80,20 +80,20 @@ export default function Login() {
               />
               <Text style={{}}>Lembre me</Text>
             </View>
-            <Link href="/module/passwordRecovery">
-              <Text
-                style={{
-                  left: "22%",
-                  fontSize: 10,
-                  color: theme.primaryColor,
-                  fontFamily: "Inter",
-                  fontStyle: "italic",
-                  fontWeight: "600",
-                }}
-              >
-                Esqueceu sua senha?
-              </Text>
-            </Link>
+            {/*<Link href="/module/passwordRecovery">*/}
+            {/*  <Text*/}
+            {/*    style={{*/}
+            {/*      left: "22%",*/}
+            {/*      fontSize: 10,*/}
+            {/*      color: theme.primaryColor,*/}
+            {/*      fontFamily: "Inter",*/}
+            {/*      fontStyle: "italic",*/}
+            {/*      fontWeight: "600",*/}
+            {/*    }}*/}
+            {/*  >*/}
+            {/*    Esqueceu sua senha?*/}
+            {/*  </Text>*/}
+            {/*</Link>*/}
           </View>
           <Pressable
             onPress={() => {
