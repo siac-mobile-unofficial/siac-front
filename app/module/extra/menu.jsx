@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { StyleSheet, View, Text, Pressable } from "react-native";
-import { theme } from "../utils/theme";
+import { theme } from "../../utils/theme";
 
 const Menu = () => {
   const router = useRouter();
