@@ -127,12 +127,11 @@ export default function Login() {
             flexDirection: "row",
             gap: 20,
 
-            position: "absolute",
+            position: "relative",
             bottom: 10,
-            left: "5%",
           }}
         >
-          <Link href="/module/menu" style={style.ruBT}>
+          <Link href="/module/extra/menu" style={style.ruBT}>
             <Text
               style={{
                 fontSize: 24,
@@ -143,7 +142,7 @@ export default function Login() {
               R.U
             </Text>
           </Link>
-          <Link href="/module/menu" style={style.ruBT}>
+          <Link href="/module/extra/busufba" style={style.ruBT}>
             <Text
               style={{
                 fontSize: 24,
