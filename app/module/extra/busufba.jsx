@@ -20,7 +20,7 @@ import * as teste from "../../utils/teste";
 import IconBack from "../../components/iconBack";
 import IconUfba from "../../components/iconUfba";
 import { StatusBar } from "expo-status-bar";
-
+import { BACK_END } from "@env";
 class localePosition {
   constructor(latitude, longitude) {
     this.latitude = latitude;
@@ -33,7 +33,7 @@ export default function Busufba() {
   const [isCard, setCard] = useState();
   const [isRouter, setRouter] = useState(null);
   requestLocale();
-
+  const ws = new WebSocket(`ws://${BACK_END}/maps`);
   function CardBus({ point, visibility, bus }) {
     const style = StyleSheet.create({
       bodyCard: {
@@ -165,9 +165,18 @@ export default function Busufba() {
       </View>
       <View style={{ flex: 1 }}>
         <MapView
+          onRegionChangeComplete={(map, details) => {
+            console.log("latitude:" + map.latitude);
+            console.log("longitude" + map.longitude);
+            const values = JSON.stringify(new ValuesLatLong("POINT",map.latitude,map.longitude))
+              ws.send(values);
+              ws.onopen = ()=>{
+
+              }
+          }}
           style={{ flex: 1, position: "relative", zIndex: 1 }}
-          followsUserLocation={true}
-          showsUserLocation={true}
+          followsUserLocation={false}
+          showsUserLocation={false}
           renderToHardwareTextureAndroid={true}
           showsMyLocationButton={false}
           showsIndoors={false}
@@ -222,3 +231,13 @@ const requestDelta = () => {
   const longitudedelta = latitudedelta * ASPECT_RATIO;
   return { latitudedelta, longitudedelta };
 };
+
+class ValuesLatLong{
+    constructor(type,lat,long) {
+        this.type = type;
+        this.locale={
+            lat:lat,
+            long: long
+        }
+    }
+}
