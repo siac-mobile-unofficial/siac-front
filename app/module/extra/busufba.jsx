@@ -14,7 +14,6 @@ import Header from "../../components/header";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import React, { useState } from "react";
 import { pointBusPositionGoing, routerExpress } from "../../utils/teste";
-import CardBus from "../../components/cardBus";
 import ByName from "../../components/byName";
 import * as teste from "../../utils/teste";
 import IconBack from "../../components/iconBack";
@@ -27,13 +26,26 @@ class localePosition {
     this.longitude = longitude;
   }
 }
+const ws = new WebSocket(`ws://${BACK_END}/maps`);
 
 export default function Busufba() {
   //const [isPosiction, setPosiction] = useState(new localePosition(0, 0));
   const [isCard, setCard] = useState();
   const [isRouter, setRouter] = useState(null);
+  const [isPoints,setPoints] = useState([]);
   requestLocale();
-  const ws = new WebSocket(`ws://${BACK_END}/maps`);
+  ws.onerror = (e)=>{
+      console.log(e)
+  }
+  ws.onclose = ()=>{
+      console.log('fechado')
+  }
+  ws.onopen = ()=>{
+      console.log('entrou')
+  }
+    ws.onmessage =(ev)=>{
+setPoints(JSON.parse(ev.data))
+    }
   function CardBus({ point, visibility, bus }) {
     const style = StyleSheet.create({
       bodyCard: {
@@ -108,16 +120,16 @@ export default function Busufba() {
     );
   }
 
-  const PointBus = ({ locale }) => (
+  const PointBus = ({locale}) => (
     <Marker
       onPress={(item) => {
-        setCard(
-          CardBus({ point: locale.name, visibility: 1, bus: locale.bus }),
-        );
+        // setCard(
+        //   CardBus({ point: locale.name, visibility: 1, bus: locale.bus }),
+        // );
       }}
       image={require("../../../assets/onibus.png")}
       title={locale.name}
-      coordinate={{ latitude: locale.latitude, longitude: locale.longitude }}
+      coordinate={{ latitude: locale.locale.latitude, longitude: locale.locale.longitude }}
     />
   );
   return (
@@ -166,13 +178,16 @@ export default function Busufba() {
       <View style={{ flex: 1 }}>
         <MapView
           onRegionChangeComplete={(map, details) => {
-            console.log("latitude:" + map.latitude);
-            console.log("longitude" + map.longitude);
-            const values = JSON.stringify(new ValuesLatLong("POINT",map.latitude,map.longitude))
-              ws.send(values);
-              ws.onopen = ()=>{
+              var zoom;
+           switch (map.latitudeDelta.toFixed(2)) {
+                case 0.01: zoom = 'X1'
+                case 0.02: zoom = 'X2'
+                case 0.03: zoom = 'X3'
+            }
 
-              }
+            const values = JSON.stringify(new ValuesLatLong("POINT",map.latitude,map.longitude,zoom))
+
+              ws.send(values);
           }}
           style={{ flex: 1, position: "relative", zIndex: 1 }}
           followsUserLocation={false}
@@ -186,6 +201,8 @@ export default function Busufba() {
           showsScale={false}
           showsCompass={false}
           showsIndoorLevelPicker={false}
+          maxZoomLevel={17}
+          minZoomLevel={15}
           region={{
             latitude: -13.0024, //TODO valores para teste
             longitude: -38.5089, //TODO valores para teste
@@ -193,9 +210,10 @@ export default function Busufba() {
             longitudeDelta: requestDelta().longitudedelta,
           }}
         >
-          {pointBusPositionGoing.map((item) => {
+          {isPoints.map((item) => {
             return <PointBus key={item.name} locale={item} />;
           })}
+
           {isRouter ? isRouter : <></>}
         </MapView>
         {isCard}
@@ -233,11 +251,12 @@ const requestDelta = () => {
 };
 
 class ValuesLatLong{
-    constructor(type,lat,long) {
+    constructor(type,lat,long,zoom) {
         this.type = type;
         this.locale={
             lat:lat,
             long: long
         }
+        this.zoom = zoom
     }
 }
