@@ -9,13 +9,10 @@ import {
   ActivityIndicator,
   Pressable,
 } from "react-native";
-import { global, theme } from "../../utils/theme";
-import Header from "../../components/header";
+import {  theme } from "../../utils/theme";
 import MapView, { Marker, Polyline } from "react-native-maps";
-import React, { useState } from "react";
-import { pointBusPositionGoing, routerExpress } from "../../utils/teste";
+import React, { useState} from "react";
 import ByName from "../../components/byName";
-import * as teste from "../../utils/teste";
 import IconBack from "../../components/iconBack";
 import IconUfba from "../../components/iconUfba";
 import { StatusBar } from "expo-status-bar";
@@ -27,26 +24,34 @@ class localePosition {
   }
 }
 const ws = new WebSocket(`ws://${BACK_END}/maps`);
-
+ws.onerror = (e)=>{
+    console.log(e)
+}
+ws.onclose = ()=>{
+    console.log('fechado')
+}
+ws.onopen = ()=>{
+    console.log('entrou')
+}
 export default function Busufba() {
   //const [isPosiction, setPosiction] = useState(new localePosition(0, 0));
   const [isCard, setCard] = useState();
   const [isRouter, setRouter] = useState(null);
   const [isPoints,setPoints] = useState([]);
+  const [isBus,setBus] = useState(null);
+  const [isZoom,setZoom] = useState('X1');
   requestLocale();
-  ws.onerror = (e)=>{
-      console.log(e)
-  }
-  ws.onclose = ()=>{
-      console.log('fechado')
-  }
-  ws.onopen = ()=>{
-      console.log('entrou')
-  }
     ws.onmessage =(ev)=>{
-setPoints(JSON.parse(ev.data))
+        const infos = JSON.parse(ev.data);
+        console.log(infos)
+        switch (infos.type) {
+            case 'POINT': return setPoints(infos.data);
+            case 'BUS': return setBus(infos.data);
+            case 'ROUTER': return setRouter(infos.data)
+
+        }
     }
-  function CardBus({ point, visibility, bus }) {
+  function CardBus({ point, visibility}) {
     const style = StyleSheet.create({
       bodyCard: {
         width: "100%",
@@ -62,7 +67,7 @@ setPoints(JSON.parse(ev.data))
         borderTopEndRadius: 10,
       },
     });
-    const statusTest = true;
+    ws.send(JSON.stringify(new Bus(point)))
     return (
       <View style={style.bodyCard}>
         <Text
@@ -76,9 +81,9 @@ setPoints(JSON.parse(ev.data))
         >
           {point}
         </Text>
-        {statusTest ? (
+        {isBus ? (
           <FlatList
-            data={bus}
+            data={isBus}
             renderItem={({ item, index }) => {
               return (
                 <Pressable
@@ -90,31 +95,32 @@ setPoints(JSON.parse(ev.data))
                     marginBottom: 10,
                     justifyContent: "space-around",
                   }}
-                  onPress={() => {
-                    teste.bus
-                      .filter((busRouter) => busRouter.name == item)
-                      .map((busFinaly) => {
-                        busFinaly.router
-                          ? setRouter(
-                              <Polyline
-                                renderToHardwareTextureAndroid={true}
-                                coordinates={busFinaly.router}
-                                strokeColor={theme.primaryColor}
-                                strokeWidth={4}
-                              />,
-                            )
-                          : setRouter(false);
-                      });
+                  onPress={async () => {
+                      console.log(item.router)
+                      ws.send(JSON.stringify(new Router(item.router.id)))
+                   // isRouter
+                   //    .map((busFinaly) => {
+                   //      busFinaly.router
+                   //        ? setRouter(
+                   //            <Polyline
+                   //              renderToHardwareTextureAndroid={true}
+                   //              coordinates={busFinaly.router}
+                   //              strokeColor={theme.primaryColor}
+                   //              strokeWidth={4}
+                   //            />,
+                   //          )
+                   // //        : setRouter(false);
+                   //    });
                   }}
                 >
-                  <Text>{item}</Text>
+                  <Text>{item.name}</Text>
                   <Text>10:45</Text>
                 </Pressable>
               );
             }}
           />
         ) : (
-          <ActivityIndicator color={theme.primaryColor} size={"large"} />
+          <ActivityIndicator color={theme.secondColor} size={"large"} />
         )}
       </View>
     );
@@ -123,10 +129,11 @@ setPoints(JSON.parse(ev.data))
   const PointBus = ({locale}) => (
     <Marker
       onPress={(item) => {
-        // setCard(
-        //   CardBus({ point: locale.name, visibility: 1, bus: locale.bus }),
-        // );
+        setCard(
+          CardBus({ point: locale.name, visibility: 1}),
+        );
       }}
+      tracksViewChanges={false}
       image={require("../../../assets/onibus.png")}
       title={locale.name}
       coordinate={{ latitude: locale.locale.latitude, longitude: locale.locale.longitude }}
@@ -178,15 +185,20 @@ setPoints(JSON.parse(ev.data))
       <View style={{ flex: 1 }}>
         <MapView
           onRegionChangeComplete={(map, details) => {
-              var zoom;
-           switch (map.latitudeDelta.toFixed(2)) {
-                case 0.01: zoom = 'X1'
-                case 0.02: zoom = 'X2'
-                case 0.03: zoom = 'X3'
+              switch (map.latitudeDelta.toFixed(2)) {
+                case '0.01': {
+                    setZoom('X1')
+                    break;
+                }
+                case '0.02': {
+                     setZoom('X2')
+                    break;
+                }
+                case'0.03': {
+                    setZoom('X3')
+                      break}
             }
-
-            const values = JSON.stringify(new ValuesLatLong("POINT",map.latitude,map.longitude,zoom))
-
+            const values = JSON.stringify(new Point(map.latitude,map.longitude,isZoom))
               ws.send(values);
           }}
           style={{ flex: 1, position: "relative", zIndex: 1 }}
@@ -201,6 +213,7 @@ setPoints(JSON.parse(ev.data))
           showsScale={false}
           showsCompass={false}
           showsIndoorLevelPicker={false}
+          cacheEnabled={false}
           maxZoomLevel={17}
           minZoomLevel={15}
           region={{
@@ -250,13 +263,32 @@ const requestDelta = () => {
   return { latitudedelta, longitudedelta };
 };
 
-class ValuesLatLong{
-    constructor(type,lat,long,zoom) {
-        this.type = type;
-        this.locale={
+class Point{
+    constructor(lat,long,zoom) {
+        this.type = 'POINT';
+
+        this.data={
+            zoom: zoom,
             lat:lat,
             long: long
         }
-        this.zoom = zoom
+
+    }
+}
+class Bus{
+    constructor(name) {
+        this.type = 'BUS';
+        this.data ={
+            name:name
+        }
+    }
+}
+class Router{
+    constructor(id) {
+        this.type = 'ROUTER';
+        this.data={
+            id:id
+
+        }
     }
 }
