@@ -142,7 +142,7 @@ export default function Login() {
               R.U
             </Text>
           </Link>
-          <Link href="/module/extra/busufba" style={style.ruBT}>
+          <Link href="/module/extra/buzufba" style={style.ruBT}>
             <Text
               style={{
                 fontSize: 24,
